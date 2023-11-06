@@ -26,16 +26,16 @@ public class OldestTeamVerification {
     }
 
     private void rejectCookies() {
-        page.locator("//button[@id='onetrust-reject-all-handler']").click();
+        getRejectCookiesButton().click();
     }
 
     private void openTeamPlayersRoster() {
-        page.locator("//button[contains(@class, 'nhl-o-menu__link')]/span[text()='Équipe']").click();
-        page.locator("//ul[contains(@class, 'nhl-o-dropdown__menu')]//span[text()='Formation']").click();
+        getTeamMenu().click();
+        getTeamRosterMenu().click();
     }
 
     private void getAndVerifyNationality() {
-        Locator birthplaces = page.locator("//div[@id='root']//div[@class='rt-tbody']//div[contains(@class, 'birthplace')]/div");
+        Locator birthplaces = getBirtPlacesColumn();
 
         birthplaces.last().waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.ATTACHED)
@@ -69,5 +69,21 @@ public class OldestTeamVerification {
 
     private void printMessage(String message) {
         System.out.println(message);
+    }
+
+    private Locator getRejectCookiesButton() {
+        return page.locator("//button[@id='onetrust-reject-all-handler']");
+    }
+
+    private Locator getBirtPlacesColumn() {
+        return page.locator("//div[@id='root']//div[@class='rt-tbody']//div[contains(@class, 'birthplace')]/div");
+    }
+
+    private Locator getTeamMenu() {
+        return page.locator("//button[contains(@class, 'nhl-o-menu__link')]/span[text()='Équipe']");
+    }
+
+    private Locator getTeamRosterMenu() {
+        return page.locator("//ul[contains(@class, 'nhl-o-dropdown__menu')]//span[text()='Formation']");
     }
 }
