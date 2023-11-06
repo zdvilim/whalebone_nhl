@@ -1,0 +1,15 @@
+Ahoj Zdenek,
+
+tak ako sme sa vcera dohodli, posielam zadanie na domaci ukol:
+
+using NHL Stats API (https://statsapi.web.nhl.com/api/v1/teams), create following tests:
+- verify the response returned expected count of teams (32 in total)
+- verify the oldest team is Montréal Canadiens
+- verify there's a city with more than 1 team and verify names of these teams
+- verify there are 8 specific teams in the Metropolitan division
+- open web browser and scrape roster of the oldest team and verify there's more Canadian players than players from USA
+
+Mozes pouzit lubovolny jazyk/framework, ale kedze tu na testy pouzivame Javu, RestAssured a Playwright, preferoval by som tieto technologie
+
+Od zajtra som na dovolenke, ale ak by ti bolo cokolvek nejasne resp. chcel by si sa na cokolvek spytat, mozes sa ozvat na moj osobny mail - marekciz@gmail.com
+

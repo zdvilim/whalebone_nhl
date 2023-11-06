@@ -1,0 +1,73 @@
+import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.WaitForSelectorState;
+
+public class OldestTeamVerification {
+
+    private final static String CANADA = "CAN";
+    private final static String USA = "USA";
+    private Playwright playwright;
+    private Browser browser;
+    private Page page;
+
+    public OldestTeamVerification(String urlOldestTeam) {
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions().setHeadless(false)
+        );
+
+        page = browser.newPage();
+        page.navigate(urlOldestTeam);
+    }
+
+    public void verifyNationality() {
+        rejectCookies();
+        openTeamPlayersRoster();
+        getAndVerifyNationality();
+    }
+
+    private void rejectCookies() {
+        page.locator("//button[@id='onetrust-reject-all-handler']").click();
+    }
+
+    private void openTeamPlayersRoster() {
+        page.locator("//button[contains(@class, 'nhl-o-menu__link')]/span[text()='Équipe']").click();
+        page.locator("//ul[contains(@class, 'nhl-o-dropdown__menu')]//span[text()='Formation']").click();
+    }
+
+    private void getAndVerifyNationality() {
+        Locator birthplaces = page.locator("//div[@id='root']//div[@class='rt-tbody']//div[contains(@class, 'birthplace')]/div");
+
+        birthplaces.last().waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.ATTACHED)
+                .setTimeout(20000));
+
+        int numberOfCanPlayers = 0;
+        int numberOfUsaPlayers = 0;
+
+        for (int i = 0; i < birthplaces.count(); i++) {
+            String birthplace = birthplaces.nth(i).innerText();
+            if (birthplace.contains(CANADA)) numberOfCanPlayers++;
+            if (birthplace.contains(USA)) numberOfUsaPlayers++;
+        }
+
+        String message;
+
+        if (numberOfCanPlayers > numberOfUsaPlayers) {
+            message = String.format("SUCCESS - Number of CAN players - '%d' (expected is 18) is bigger then USA players - '%d' (expected is 5)", numberOfCanPlayers, numberOfUsaPlayers);
+        } else {
+            message = String.format("FAILURE - Number of CAN players - '%d' (expected is 18) is not bigger then USA players - '%d' (expected is 5)", numberOfCanPlayers, numberOfUsaPlayers);
+        }
+
+        printMessage("-----> open web browser and scrape roster of the oldest team and verify there's more Canadian players than players from USA");
+        printMessage(message);
+    }
+
+    public void closeBrowser() {
+        browser.close();
+        playwright.close();
+    }
+
+    private void printMessage(String message) {
+        System.out.println(message);
+    }
+}
