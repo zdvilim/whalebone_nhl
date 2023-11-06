@@ -5,9 +5,9 @@ public class OldestTeamVerification {
 
     private final static String CANADA = "CAN";
     private final static String USA = "USA";
-    private Playwright playwright;
-    private Browser browser;
-    private Page page;
+    private final Playwright playwright;
+    private final Browser browser;
+    private final Page page;
 
     public OldestTeamVerification(String urlOldestTeam) {
         playwright = Playwright.create();

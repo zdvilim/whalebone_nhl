@@ -2,11 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.microsoft.playwright.*;
 public class NhlTeams {
 
     private static final ApiReader apiReader = new ApiReader();
-    private ArrayList<Team> teamsList;
+    private final ArrayList<Team> teamsList;
 
     public NhlTeams() {
         teamsList = apiReader.getTeams();
