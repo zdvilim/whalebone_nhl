@@ -64,8 +64,8 @@ public class NhlTeams {
             printMessage("FAILURE - There is no city with more than 1 team in NHL.");
         } else {
             // city/cities with more teams found
-            for (int i = 0; i < citiesWithMoreTeams.size(); i++) {
-                String city = citiesWithMoreTeams.get(i).getKey();
+            for (Map.Entry<String, Integer> cityWithMoreTeam : citiesWithMoreTeams) {
+                String city = cityWithMoreTeam.getKey();
                 int teamNumber = 1;
                 List<Team> teams = teamsList.stream().filter(team -> team.getLocationName().equals(city)).toList();
 
@@ -97,9 +97,8 @@ public class NhlTeams {
     }
 
     public void verifyNationalityOfOldestTeam(String urlOldestTeam) {
-        OldestTeamVerification oldestTeamVerification = new OldestTeamVerification(urlOldestTeam);
-        oldestTeamVerification.verifyNationality();
-        oldestTeamVerification.closeBrowser();
+        OldestTeamVerification oldestTeamVerification = new OldestTeamVerification();
+        oldestTeamVerification.verifyNationality(urlOldestTeam);
     }
 
     private Team getOldestTeam() {
